@@ -155,6 +155,10 @@ namespace HuntTheWumpus
 
         if (operation == DungeonMove::Shoot)
         {
+            if (destinationIds.empty())
+            {
+                std::cout << "" << std::endl;
+            }
             // Retrieve an arrow.
             auto arrow = hunter->GetArrow();
 
