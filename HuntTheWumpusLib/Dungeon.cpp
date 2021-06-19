@@ -166,8 +166,7 @@ namespace HuntTheWumpus
             
             if (destinationIds.size() > 5)
             {
-                std::cout << "Arrow can only travel up to 5 caves long" << std::endl;
-                const_cast<std::vector<int>&>(destinationIds).resize(static_cast<size_t>(5));
+                throw std::length_error("ERROR: arrow can only travel up to 5 caves long");
             }
             
             // Retrieve an arrow.

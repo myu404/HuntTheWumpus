@@ -295,9 +295,10 @@ int main()
                     path.resize(std::min(path.size(), static_cast<size_t>(5)));
                     dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, path);
                 }
-                catch (const std::invalid_argument&)
+                catch (const std::invalid_argument& e)
                 {
-                    std::cout << "ERROR: invalid destination cave id(s). Must be integer value!" << std::endl;
+                    // Handles error due to invalid vector entry or empty vector (thrown from MakeMove())
+                    std::cout << e.what() << std::endl;
                 }
 
             }

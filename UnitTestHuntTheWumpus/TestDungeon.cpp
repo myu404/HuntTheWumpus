@@ -325,11 +325,17 @@ namespace TestHuntTheWumpus
 
         HuntTheWumpus::Dungeon dungeon(env.m_context);
 
-        std::vector<int> destIds = { 1, 2, 15, 4, 5, 6 };
+        bool expectedException = false;
 
-        // Input destination id vector of size 6. Expect vector to be resized to 5 because max allowed arrow traversal is 5
-        dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, destIds);
+        try
+        {
+            dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, { 1, 2, 15, 4, 5, 6 });
+        }
+        catch (const std::length_error&)
+        {
+            expectedException = true;
+        }
 
-        CHECK_EQUAL(5, destIds.size());
+        CHECK(expectedException);
     }
 }
