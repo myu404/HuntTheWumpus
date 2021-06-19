@@ -1,5 +1,6 @@
 #include "UserNotification.h"
 #include <iostream>
+#include <stdexcept>
 
 namespace HuntTheWumpus
 {
@@ -47,33 +48,26 @@ namespace HuntTheWumpus
     {
         const auto callback = m_callbacks.find(category);
 
+        if (callback == m_callbacks.end()) throw std::out_of_range("Notification is missing");
+
         const auto* callbackFunc = std::get_if<std::function<void()>>(&callback->second);
 
-        try
-        {
-            (*callbackFunc)();
-        }
-        catch (const std::bad_function_call& e)
-        {
-            std::cout << e.what() << ". The following callback is missing from UserNotification: " << callback->first << std::endl;
-        }
-        
+        if (callbackFunc == nullptr) throw std::bad_function_call();
+
+        (*callbackFunc)();       
     }
 
     template<typename Callback, typename CallbackArg> void DoCallback(const std::unordered_map<UserNotification::Notification, UserNotification::CallbackData>& callbacks, const UserNotification::Notification callbackId, const CallbackArg& arg)
     {
         const auto callback = callbacks.find(callbackId);
 
+        if (callback == callbacks.end()) throw std::out_of_range("Notification is missing");
+        
         const auto* callbackFunc = std::get_if<Callback>(&callback->second);
 
-        try
-        {
-            (*callbackFunc)(arg);
-        }
-        catch (const std::bad_function_call& e)
-        {
-            std::cout << e.what() << ". The following callback is missing from UserNotification: " << callback->first << std::endl;
-        }
+        if (callbackFunc == nullptr) throw std::bad_function_call();
+        
+        (*callbackFunc)(arg);
     }
 
     void UserNotification::Notify(const Notification category, const int arg) const

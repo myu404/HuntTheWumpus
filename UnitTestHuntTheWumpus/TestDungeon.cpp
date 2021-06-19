@@ -6,6 +6,7 @@
 #include "UserNotification.h"
 
 #include "TestHelperTestEnvironment.h"
+#include <stdexcept>
 
 namespace TestHuntTheWumpus
 {
@@ -235,4 +236,100 @@ namespace TestHuntTheWumpus
         CHECK(env.m_state.m_gameOverCalled);
         CHECK(env.m_state.m_gameOverResult);
      }
+
+    TEST(DungeonSuite, Dungeon_FindCave_ExceptionHandling)
+    {
+        TestEnvironment env;
+
+        env.m_provider.SetCaveSequence({ 1, 2, 15, 4, 5, 6 });
+
+        HuntTheWumpus::Dungeon dungeon(env.m_context);
+
+        bool expectedException = false;
+
+        // Expect thrown exception due to passing cave id outside of game design
+        try
+        {
+            dungeon.FindCave(999);
+        }
+        catch (const std::invalid_argument&)
+        {
+            expectedException = true;
+        }
+
+        CHECK(expectedException);
+    }
+
+    TEST(DungeonSuite, Dungeon_Move_ExceptionHandling)
+    {
+        TestEnvironment env;
+
+        env.m_provider.SetCaveSequence({ 1, 2, 15, 4, 5, 6 });
+
+        HuntTheWumpus::Dungeon dungeon(env.m_context);
+
+        bool expectedException = false;
+
+        // Expect thrown exception due to passing cave id outside of game design
+        try
+        {
+            dungeon.Move({ HuntTheWumpus::Category::Wumpus , 0 }, 999);
+        }
+        catch (const std::invalid_argument&)
+        {
+            expectedException = true;
+        }
+
+        CHECK(expectedException);
+    }
+
+    TEST(DungeonSuite, Dungeon_MakeMove_ExceptionHandling_EmptyVector)
+    {
+        TestEnvironment env;
+
+        env.m_provider.SetCaveSequence({ 1, 2, 15, 4, 5, 6 });
+
+        HuntTheWumpus::Dungeon dungeon(env.m_context);
+
+        bool expectedExceptionMove = false;
+        bool expectedExceptionShoot = false;
+
+        // Expect thrown exception due to empty destination id vector
+        try
+        {
+            dungeon.MakeMove(HuntTheWumpus::DungeonMove::Move, {});
+        }
+        catch (const std::invalid_argument&)
+        {
+            expectedExceptionMove = true;
+        }
+
+        try
+        {
+            dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, {});
+        }
+        catch (const std::invalid_argument&)
+        {
+            expectedExceptionShoot = true;
+        }
+
+        CHECK(expectedExceptionMove);
+        CHECK(expectedExceptionShoot);
+    }
+
+    TEST(DungeonSuite, Dungeon_MakeMove_ExceptionHandling_VectorResize)
+    {
+        TestEnvironment env;
+
+        env.m_provider.SetCaveSequence({ 1, 2, 15, 4, 5, 6 });
+
+        HuntTheWumpus::Dungeon dungeon(env.m_context);
+
+        std::vector<int> destIds = { 1, 2, 15, 4, 5, 6 };
+
+        // Input destination id vector of size 6. Expect vector to be resized to 5 because max allowed arrow traversal is 5
+        dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, destIds);
+
+        CHECK_EQUAL(5, destIds.size());
+    }
 }

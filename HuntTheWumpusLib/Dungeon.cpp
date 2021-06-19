@@ -16,6 +16,8 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <algorithm>
 
+#include <iostream>
+
 namespace HuntTheWumpus
 {
     Dungeon::Dungeon(Context& providers)
@@ -97,6 +99,7 @@ namespace HuntTheWumpus
     const std::shared_ptr<Cave>& Dungeon::FindCave(const int caveId)
     {
         const auto caveItr = m_caves.find(caveId);
+        if (caveItr == m_caves.end()) throw std::invalid_argument("ERROR: cave id is not valid.");
         return caveItr->second;
     }
 
@@ -120,7 +123,7 @@ namespace HuntTheWumpus
         startCave->RemoveDenizen(identifier);
 
         const auto destCave = m_caves[destinationCave];
-
+        if (destCave == nullptr) throw std::invalid_argument("ERROR: invalid destination cave id.");
         thing->EnterCave(destCave);
         destCave->AddDenizen(thing, true);
     }
@@ -135,6 +138,11 @@ namespace HuntTheWumpus
 
     void Dungeon::MakeMove(const DungeonMove operation, const std::vector<int>& destinationIds)
     {
+        if (destinationIds.empty())
+        {
+            throw std::invalid_argument("ERROR: cannot provide empty list of caves.");
+        }
+
         // First, find the hunter.
         const auto hunter = std::dynamic_pointer_cast<Hunter>(m_caveDenizens.at({ Category::Hunter, 0 }));
 
@@ -155,10 +163,13 @@ namespace HuntTheWumpus
 
         if (operation == DungeonMove::Shoot)
         {
-            if (destinationIds.empty())
+            
+            if (destinationIds.size() > 5)
             {
-                std::cout << "" << std::endl;
+                std::cout << "Arrow can only travel up to 5 caves long" << std::endl;
+                const_cast<std::vector<int>&>(destinationIds).resize(static_cast<size_t>(5));
             }
+            
             // Retrieve an arrow.
             auto arrow = hunter->GetArrow();
 

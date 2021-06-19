@@ -209,103 +209,117 @@ int main()
     auto observe = MakeUserNotifications();
 
     HuntTheWumpus::Context gameContext{ observe, sourceOfRandom, change };
-
-    HuntTheWumpus::Dungeon dungeon(gameContext);
-
-    while (change.IsPlaying())
+    
+    try
     {
-        // Parse input.
-        std::string input;
+        HuntTheWumpus::Dungeon dungeon(gameContext);
 
-        std::cout << "Command? ";
-        std::cout.flush();
-
-        std::getline(std::cin, input);
-
-        // Split into strings.
-        const auto stringTokens = SplitString(input, " \t\n");
-
-        // UI fault 1: user input delimiter characters or invalid commands
-        try
+        while (change.IsPlaying())
         {
-            if (stringTokens.empty() || std::ranges::none_of(validCommands, [&stringTokens](const auto& command)
-            {
-                return stringTokens[0] == command;
-            })
-            ) throw InputError();
-        }
-        catch (const InputError& e)
-        {
-            std::cout << e.what() << std::endl;
-            continue;
-        }
+            // Parse input.
+            std::string input;
 
-        const auto& command = stringTokens[0];
+            std::cout << "Command? ";
+            std::cout.flush();
 
-        if (command == "m" || command == "M" || command == "move" || command == "MOVE")
-        {
-            if (stringTokens.size() < 2)
-            {
-                std::cout << "A Move command must be followed by the destination cave id." << std::endl;
-                continue;
-            }
+            std::getline(std::cin, input);
 
-            // UI fault 2: user input non-integer value as destination cave id
-            try 
-            {
-                // Second token is a destination.
-                const auto destCave = std::stoi(stringTokens[1]);
+            // Split into strings.
+            const auto stringTokens = SplitString(input, " \t\n");
 
-                dungeon.MakeMove(HuntTheWumpus::DungeonMove::Move, { destCave });
-            }
-            catch (const std::invalid_argument&)
-            {
-                std::cout << "ERROR: \"" << stringTokens[1] << "\" is an invalid destination cave id. Must be an integer value!" << std::endl;
-            }
-
-        }
-
-        if (command == "s" || command == "S" || command == "shoot" || command == "SHOOT")
-        {
-            if (stringTokens.size() < 2)
-            {
-                std::cout << "A Shoot command must be followed by a list of caves for the arrow to go through." << std::endl;
-                continue;
-            }
-
-            // Remaining tokens is the desired arrow path.
-	         std::vector<int> path;
-            auto firstToken = false;
-
-            // UI fault 3: user input non-integer value(s) in list of caves
+            // UI fault 1: user input delimiter characters or invalid commands
             try
             {
-                for (auto&& token : stringTokens)
+                if (stringTokens.empty() || std::ranges::none_of(validCommands, [&stringTokens](const auto& command)
                 {
-                    if (!firstToken)
-                    {
-                        firstToken = true;
-                        continue;
-                    }
-                    path.push_back(std::stoi(token));
+                    return stringTokens[0] == command;
+                })
+                ) throw InputError();
+            }
+            catch (const InputError& e)
+            {
+                std::cout << e.what() << std::endl;
+                continue;
+            }
+
+            const auto& command = stringTokens[0];
+
+            if (command == "m" || command == "M" || command == "move" || command == "MOVE")
+            {
+                if (stringTokens.size() < 2)
+                {
+                    std::cout << "A Move command must be followed by the destination cave id." << std::endl;
+                    continue;
                 }
 
-                path.resize(std::min(path.size(), static_cast<size_t>(5)));
+                // UI fault 2: user input non-integer value as destination cave id
+                try 
+                {
+                    // Second token is a destination.
+                    const auto destCave = std::stoi(stringTokens[1]);
+                    dungeon.MakeMove(HuntTheWumpus::DungeonMove::Move, { destCave });
+                }
+                catch (const std::invalid_argument&)
+                {
+                    std::cout << "ERROR: \"" << stringTokens[1] << "\" is an invalid destination cave id. Must be an integer value!" << std::endl;
+                }
 
-                dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, path);
             }
-            catch (const std::invalid_argument&)
+
+            if (command == "s" || command == "S" || command == "shoot" || command == "SHOOT")
             {
-                std::cout << "ERROR: List of " << ((stringTokens.size() > 2) ? "caves have" : "cave has") << " invalid destination cave id. Must be integer value!" << std::endl;
+                if (stringTokens.size() < 2)
+                {
+                    std::cout << "A Shoot command must be followed by a list of caves for the arrow to go through." << std::endl;
+                    continue;
+                }
+
+                // Remaining tokens is the desired arrow path.
+	            std::vector<int> path;
+                auto firstToken = false;
+
+                // UI fault 3: user input non-integer value(s) in list of caves
+                try
+                {
+                    for (auto&& token : stringTokens)
+                    {
+                        if (!firstToken)
+                        {
+                            firstToken = true;
+                            continue;
+                        }
+
+                        path.push_back(std::stoi(token));
+
+                    }
+                    path.resize(std::min(path.size(), static_cast<size_t>(5)));
+                    dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, path);
+                }
+                catch (const std::invalid_argument&)
+                {
+                    std::cout << "ERROR: invalid destination cave id(s). Must be integer value!" << std::endl;
+                }
+
             }
 
+            if (command == "q" || command == "quit" || command == "e" || command == "exit" || command == "x")
+            {
+                std::cout << "Exiting." << std::endl;
+                change.GameOver(false);
+            }
         }
-
-        if (command == "q" || command == "quit" || command == "e" || command == "exit" || command == "x")
-        {
-            std::cout << "Exiting." << std::endl;
-            change.GameOver(false);
-        }
+    }
+    catch (const std::out_of_range& e)
+    {
+        // Missing notification
+        std::cout << e.what() << std::endl;
+        return 1; // Return non-zero status code to indicate program error
+    }
+    catch (const std::bad_function_call& e)
+    {
+        // Notification callback defined improperly
+        std::cout << e.what() << std::endl;
+        return 2; // Return non-zero status code to indicate program error
     }
 
     return 0;
