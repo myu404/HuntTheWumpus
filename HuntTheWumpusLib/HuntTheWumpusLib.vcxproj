@@ -103,6 +103,7 @@
     <ClInclude Include="Bat.h" />
     <ClInclude Include="Cave.h" />
     <ClInclude Include="Context.h" />
+    <ClInclude Include="CustomAssert.h" />
     <ClInclude Include="Dungeon.h" />
     <ClInclude Include="GameStateObservation.h" />
     <ClInclude Include="Hunter.h" />

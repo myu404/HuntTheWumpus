@@ -317,7 +317,7 @@ namespace TestHuntTheWumpus
         CHECK(expectedExceptionShoot);
     }
 
-    TEST(DungeonSuite, Dungeon_MakeMove_ExceptionHandling_VectorResize)
+    TEST(DungeonSuite, Dungeon_MakeMove_ExceptionHandling_VectorSize)
     {
         TestEnvironment env;
 

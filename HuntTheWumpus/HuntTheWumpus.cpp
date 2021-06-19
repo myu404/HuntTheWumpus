@@ -162,7 +162,7 @@ class InputError : public std::exception
 {
 public:
     InputError()
-        : std::exception("Invalid input.\nEnter \"m\", \"M\", \"move\", or \"MOVE\" for move command.\nEnter \"s\", \"S\", \"shoot\", or \"SHOOT\" for shoot command.\n"
+        : std::exception("ERROR: Invalid input.\nEnter \"m\", \"M\", \"move\", or \"MOVE\" for move command.\nEnter \"s\", \"S\", \"shoot\", or \"SHOOT\" for shoot command.\n"
         "Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).\n"
         "Enter \"q\", \"quit\", \"e\", \"exit\", or \"x\" to quit program.")
     {
@@ -279,6 +279,9 @@ int main()
                 auto firstToken = false;
 
                 // UI fault 3: user input non-integer value(s) in list of caves
+                // Provide try-catch block outside of for-loop in lieu of locally at path.push_back
+                // because MakeMove is designed to throw std::invalid_argument if path vector resize
+                // is omitted
                 try
                 {
                     for (auto&& token : stringTokens)
@@ -288,7 +291,6 @@ int main()
                             firstToken = true;
                             continue;
                         }
-
                         path.push_back(std::stoi(token));
 
                     }
