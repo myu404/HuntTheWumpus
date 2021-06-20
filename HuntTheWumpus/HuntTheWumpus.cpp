@@ -1,9 +1,17 @@
+/*
+* Author: Michael Yu
+* C++ Programming, Spring 2021
+* Hunt The Wumpus: Assignment 05
+* 6/20/2021
+*/
 
 #include "Context.h"
 #include "Dungeon.h"
 #include "RandomProvider.h"
 #include "GameStateObservation.h"
 #include "UserNotification.h"
+
+#include "CustomAssert.h"
 
 #include <iostream>
 #include <random>
@@ -157,7 +165,7 @@ std::vector<std::string> SplitString(const std::string& text, const std::string&
     return tokens;
 }
 
-
+/*
 class InputError : public std::exception
 {
 public:
@@ -168,6 +176,7 @@ public:
     {
     }
 };
+*/
 
 void PrintWelcomeText()
 {
@@ -230,15 +239,20 @@ int main()
             // UI fault 1: user input delimiter characters or invalid commands
             try
             {
-                if (stringTokens.empty() || std::ranges::none_of(validCommands, [&stringTokens](const auto& command)
-                {
-                    return stringTokens[0] == command;
-                })
-                ) throw InputError();
+                HuntTheWumpus::assert(!stringTokens.empty(), __FILE__, __LINE__);
+
+                HuntTheWumpus::assert(std::ranges::any_of(validCommands, [&stringTokens](const auto& command)
+                    {
+                        return stringTokens[0] == command;
+                    })
+                    , __FILE__, __LINE__);
             }
-            catch (const InputError& e)
+            catch (const std::runtime_error& e)
             {
-                std::cout << e.what() << std::endl;
+                std::string errorMessage = "\nInvalid input.\nEnter \"m\", \"M\", \"move\", or \"MOVE\" for move command.\nEnter \"s\", \"S\", \"shoot\", or \"SHOOT\" for shoot command.\n"
+                    "Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).\n"
+                    "Enter \"q\", \"quit\", \"e\", \"exit\", or \"x\" to quit program.";
+                std::cout << e.what() << errorMessage << std::endl;
                 continue;
             }
 
@@ -246,9 +260,14 @@ int main()
 
             if (command == "m" || command == "M" || command == "move" || command == "MOVE")
             {
-                if (stringTokens.size() < 2)
+                try
                 {
-                    std::cout << "A Move command must be followed by the destination cave id." << std::endl;
+                    HuntTheWumpus::assert(stringTokens.size() >= 2, __FILE__, __LINE__);
+                }
+                catch (const std::runtime_error& e)
+                {
+                    std::string errorMessage = "\nA Move command must be followed by the destination cave id.";
+                    std::cout << e.what() << errorMessage << std::endl;
                     continue;
                 }
 
@@ -268,9 +287,14 @@ int main()
 
             if (command == "s" || command == "S" || command == "shoot" || command == "SHOOT")
             {
-                if (stringTokens.size() < 2)
+                try
                 {
-                    std::cout << "A Shoot command must be followed by a list of caves for the arrow to go through." << std::endl;
+                    HuntTheWumpus::assert(stringTokens.size() >= 2, __FILE__, __LINE__);
+                }
+                catch (const std::runtime_error& e)
+                {
+                    std::string errorMessage = "\nA Shoot command must be followed by a list of caves for the arrow to go through.";
+                    std::cout << e.what() << errorMessage << std::endl;
                     continue;
                 }
 

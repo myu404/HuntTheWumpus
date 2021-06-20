@@ -1,3 +1,10 @@
+/*
+* Author: Michael Yu
+* C++ Programming, Spring 2021
+* Hunt The Wumpus: Assignment 05
+* 6/20/2021
+*/
+
 #include <TestHarness.h>
 
 #include "Dungeon.h"
@@ -299,7 +306,7 @@ namespace TestHuntTheWumpus
         {
             dungeon.MakeMove(HuntTheWumpus::DungeonMove::Move, {});
         }
-        catch (const std::invalid_argument&)
+        catch (const std::runtime_error&)
         {
             expectedExceptionMove = true;
         }
@@ -308,7 +315,7 @@ namespace TestHuntTheWumpus
         {
             dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, {});
         }
-        catch (const std::invalid_argument&)
+        catch (const std::runtime_error&)
         {
             expectedExceptionShoot = true;
         }
@@ -331,7 +338,7 @@ namespace TestHuntTheWumpus
         {
             dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, { 1, 2, 15, 4, 5, 6 });
         }
-        catch (const std::length_error&)
+        catch (const std::runtime_error&)
         {
             expectedException = true;
         }

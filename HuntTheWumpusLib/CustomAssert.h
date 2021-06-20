@@ -1,10 +1,17 @@
+/*
+* Author: Michael Yu
+* C++ Programming, Spring 2021
+* Hunt The Wumpus: Assignment 05
+* 6/20/2021
+*/
+
 #pragma once
 #include <stdexcept>
 #include <sstream>
 
-void assert(bool condition, const std::string filename, const int lineNumber)
+
+namespace HuntTheWumpus
 {
-    std::stringstream ss;
-    ss << "Failed to meet pre-condition requirement at " << filename << ", line " << lineNumber << std::endl;
-    if (!condition) throw std::runtime_error(ss.str());
+    void assert(bool condition, const std::string filename, const int lineNumber, const std::string errorMessage = "");
 }
+

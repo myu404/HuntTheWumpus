@@ -91,6 +91,7 @@
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Bat.cpp" />
     <ClCompile Include="Cave.cpp" />
+    <ClCompile Include="CustomAssert.cpp" />
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="Hunter.cpp" />
     <ClCompile Include="Pit.cpp" />
