@@ -1,0 +1,13 @@
+ 
+\n
+\t
+trek
+m
+m one
+s
+s 1 2 three 4 5
+s three 4 5
+Move 13
+Shoot 13
+Quit
+q

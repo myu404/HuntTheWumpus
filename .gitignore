@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+/CppUnitLite/x64/*
+/HuntTheWumpus/x64/*
+/UnitTestHuntTheWumpus/x64/*
+/x64/*
+/.vs/*
+/HuntTheWumpusLib/x64/*

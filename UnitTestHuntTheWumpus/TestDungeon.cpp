@@ -1,3 +1,10 @@
+/*
+* Author: Michael Yu
+* C++ Programming, Spring 2021
+* Hunt The Wumpus: Assignment 05
+* 6/20/2021
+*/
+
 #include <TestHarness.h>
 
 #include "Dungeon.h"
@@ -6,6 +13,7 @@
 #include "UserNotification.h"
 
 #include "TestHelperTestEnvironment.h"
+#include <stdexcept>
 
 namespace TestHuntTheWumpus
 {
@@ -235,4 +243,106 @@ namespace TestHuntTheWumpus
         CHECK(env.m_state.m_gameOverCalled);
         CHECK(env.m_state.m_gameOverResult);
      }
+
+    TEST(DungeonSuite, Dungeon_FindCave_ExceptionHandling)
+    {
+        TestEnvironment env;
+
+        env.m_provider.SetCaveSequence({ 1, 2, 15, 4, 5, 6 });
+
+        HuntTheWumpus::Dungeon dungeon(env.m_context);
+
+        bool expectedException = false;
+
+        // Expect thrown exception due to passing cave id outside of game design
+        try
+        {
+            dungeon.FindCave(999);
+        }
+        catch (const std::invalid_argument&)
+        {
+            expectedException = true;
+        }
+
+        CHECK(expectedException);
+    }
+
+    TEST(DungeonSuite, Dungeon_Move_ExceptionHandling)
+    {
+        TestEnvironment env;
+
+        env.m_provider.SetCaveSequence({ 1, 2, 15, 4, 5, 6 });
+
+        HuntTheWumpus::Dungeon dungeon(env.m_context);
+
+        bool expectedException = false;
+
+        // Expect thrown exception due to passing cave id outside of game design
+        try
+        {
+            dungeon.Move({ HuntTheWumpus::Category::Wumpus , 0 }, 999);
+        }
+        catch (const std::invalid_argument&)
+        {
+            expectedException = true;
+        }
+
+        CHECK(expectedException);
+    }
+
+    TEST(DungeonSuite, Dungeon_MakeMove_ExceptionHandling_EmptyVector)
+    {
+        TestEnvironment env;
+
+        env.m_provider.SetCaveSequence({ 1, 2, 15, 4, 5, 6 });
+
+        HuntTheWumpus::Dungeon dungeon(env.m_context);
+
+        bool expectedExceptionMove = false;
+        bool expectedExceptionShoot = false;
+
+        // Expect thrown exception due to empty destination id vector
+        try
+        {
+            dungeon.MakeMove(HuntTheWumpus::DungeonMove::Move, {});
+        }
+        catch (const std::runtime_error&)
+        {
+            expectedExceptionMove = true;
+        }
+
+        try
+        {
+            dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, {});
+        }
+        catch (const std::runtime_error&)
+        {
+            expectedExceptionShoot = true;
+        }
+
+        CHECK(expectedExceptionMove);
+        CHECK(expectedExceptionShoot);
+    }
+
+    TEST(DungeonSuite, Dungeon_MakeMove_ExceptionHandling_VectorSize)
+    {
+        TestEnvironment env;
+
+        env.m_provider.SetCaveSequence({ 1, 2, 15, 4, 5, 6 });
+
+        HuntTheWumpus::Dungeon dungeon(env.m_context);
+
+        bool expectedException = false;
+
+        try
+        {
+            dungeon.MakeMove(HuntTheWumpus::DungeonMove::Shoot, { 1, 2, 15, 4, 5, 6 });
+        }
+        catch (const std::runtime_error&)
+        {
+            expectedException = true;
+        }
+
+        CHECK(expectedException);
+    }
 }

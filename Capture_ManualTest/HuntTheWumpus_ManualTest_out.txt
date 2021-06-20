@@ -1,0 +1,104 @@
+Welcome to "Hunt the Wumpus".
+The wumpus lives in a dungeon of 20 caves.Each cave has 3 tunnels to other caves.
+(Look at a dodecahedron to see how this works.If you print "don't know what a dodecahedron is, ask someone.)
+
+Hazards:
+        Bottomless pits - Two caves have bottomless pits in them.If you go there, you fall into the pit(& lose)!
+        Super bats - Two caves have super bats.If you go there, a bat grabs you and takes you to some other room at random(which may be troublesome).
+Wumpus:
+        The wumpus is not bothered by hazards. (He has sucker feet and is too big for a
+bat to lift.) Usually he is asleep.Two things wake him up : your shooting an
+arrow, or your entering his room.If the wumpus wakes, he moves(75 % of the time)
+one room or stays still(25 % of the time). After that, if he is where you are, he eats you upand you lose!
+
+Each turn you may move or shoot a crooked arrow.
+Moving : You can move one cave(through one tunnel).
+Arrows : You have 5 arrows.You lose when you run out.Each arrow can go from 1 to 5 caves.You aim by telling the caves to which you want the arrow to go.
+If the arrow can't go that way (if no tunnel) it moves at random to a neighboring cave.
+        If the arrow hits the wumpus, you win.
+        If the arrow hits you, you lose.
+Warnings :
+        When you are one room away from a wumpus or hazard, the computer says:
+        Wumpus: "I smell a wumpus!"
+        Bat : "Bats nearby!"
+        Pit : "I feel a draft!"
+
+You've entered cave 19
+Tunnels lead to:  11 18 20
+You feel a draft...
+Command?
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 236.
+
+Invalid input.
+Enter "m", "M", "move", or "MOVE" for move command.
+Enter "s", "S", "shoot", or "SHOOT" for shoot command.
+Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).
+Enter "q", "quit", "e", "exit", or "x" to quit program.
+Command? \n
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 242.
+
+Invalid input.
+Enter "m", "M", "move", or "MOVE" for move command.
+Enter "s", "S", "shoot", or "SHOOT" for shoot command.
+Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).
+Enter "q", "quit", "e", "exit", or "x" to quit program.
+Command? \t
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 242.
+
+Invalid input.
+Enter "m", "M", "move", or "MOVE" for move command.
+Enter "s", "S", "shoot", or "SHOOT" for shoot command.
+Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).
+Enter "q", "quit", "e", "exit", or "x" to quit program.
+Command? trek
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 242.
+
+Invalid input.
+Enter "m", "M", "move", or "MOVE" for move command.
+Enter "s", "S", "shoot", or "SHOOT" for shoot command.
+Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).
+Enter "q", "quit", "e", "exit", or "x" to quit program.
+Command? m
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 259.
+
+A Move command must be followed by the destination cave id.
+Command? m one
+ERROR: "one" is an invalid destination cave id. Must be an integer value!
+Command? s
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 286.
+
+A Shoot command must be followed by a list of caves for the arrow to go through.
+Command? s 1 2 three 4 5
+invalid stoi argument
+Command? s three 4 5
+invalid stoi argument
+Command? Move 13
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 242.
+
+Invalid input.
+Enter "m", "M", "move", or "MOVE" for move command.
+Enter "s", "S", "shoot", or "SHOOT" for shoot command.
+Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).
+Enter "q", "quit", "e", "exit", or "x" to quit program.
+Command? Shoot 13
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 242.
+
+Invalid input.
+Enter "m", "M", "move", or "MOVE" for move command.
+Enter "s", "S", "shoot", or "SHOOT" for shoot command.
+Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).
+Enter "q", "quit", "e", "exit", or "x" to quit program.
+Command? Quit
+Failed to meet pre-condition requirement at C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\HuntTheWumpus\HuntTheWumpus.cpp, line 242.
+
+Invalid input.
+Enter "m", "M", "move", or "MOVE" for move command.
+Enter "s", "S", "shoot", or "SHOOT" for shoot command.
+Move and shoot command must be followed be followed by destination cave id (move) or list of cave ids (shoot).
+Enter "q", "quit", "e", "exit", or "x" to quit program.
+Command? q
+Exiting.
+Game over: you lost.
+
+C:\05_Cpp_Prog\02_Spring2021\Lesson05\HuntTheWumpus_ErrorHandling\x64\Release\HuntTheWumpus.exe (process 25396) exited with code 0.
+Press any key to close this window . . .

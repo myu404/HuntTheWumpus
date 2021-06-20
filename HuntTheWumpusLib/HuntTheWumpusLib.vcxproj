@@ -91,6 +91,7 @@
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Bat.cpp" />
     <ClCompile Include="Cave.cpp" />
+    <ClCompile Include="CustomAssert.cpp" />
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="Hunter.cpp" />
     <ClCompile Include="Pit.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Bat.h" />
     <ClInclude Include="Cave.h" />
     <ClInclude Include="Context.h" />
+    <ClInclude Include="CustomAssert.h" />
     <ClInclude Include="Dungeon.h" />
     <ClInclude Include="GameStateObservation.h" />
     <ClInclude Include="Hunter.h" />
