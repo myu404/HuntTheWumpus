@@ -59,9 +59,10 @@ namespace HuntTheWumpus
 
         const auto* callbackFunc = std::get_if<std::function<void()>>(&callback->second);
 
-        if (callbackFunc == nullptr) throw std::bad_function_call();
+        // Throw exception for missing callback function.
+        if (!callbackFunc) throw std::bad_function_call();
 
-        (*callbackFunc)();       
+        (*callbackFunc)();
     }
 
     template<typename Callback, typename CallbackArg> void DoCallback(const std::unordered_map<UserNotification::Notification, UserNotification::CallbackData>& callbacks, const UserNotification::Notification callbackId, const CallbackArg& arg)
@@ -72,7 +73,8 @@ namespace HuntTheWumpus
         
         const auto* callbackFunc = std::get_if<Callback>(&callback->second);
 
-        if (callbackFunc == nullptr) throw std::bad_function_call();
+        // Throw exception for missing callback function.
+        if (!callbackFunc) throw std::bad_function_call();
         
         (*callbackFunc)(arg);
     }

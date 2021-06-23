@@ -14,9 +14,12 @@ namespace HuntTheWumpus
 {
     void assert(bool condition, const std::string filename, const int lineNumber, const std::string errorMessage)
     {
-        std::stringstream ss;
-        ss << "Failed to meet pre-condition requirement at " << filename << ", line " << lineNumber << "." << errorMessage << std::endl;
-        if (!condition) throw std::runtime_error(ss.str());
+        if (!condition)
+        {
+            std::stringstream ss;
+            ss << "Failed to meet pre-condition requirement at " << filename << ", line " << lineNumber << "." << errorMessage << std::endl;
+            throw std::runtime_error(ss.str());
+        }
     }
 }
 

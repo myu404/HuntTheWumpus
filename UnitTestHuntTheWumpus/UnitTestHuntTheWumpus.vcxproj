@@ -90,6 +90,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="TestArrow.cpp" />
+    <ClCompile Include="TestAssert.cpp" />
     <ClCompile Include="TestBat.cpp" />
     <ClCompile Include="TestCave.cpp" />
     <ClCompile Include="TestDungeon.cpp" />
