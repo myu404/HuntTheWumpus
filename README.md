@@ -1,1 +1,1 @@
-# HuntTheWumpus_ErrorHandling
+# HuntTheWumpus
