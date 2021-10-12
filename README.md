@@ -23,7 +23,7 @@ CppUnitLite unit test framework is used to provide unit test coverage for this p
 
 ## Application Overview
 ### System Design
-The design specification from [References/]() illustrates a UML class diagram of the Hunt the Wumpus application. The diagram establishes the relationship between the objects involved. 
+The [design specification](https://github.com/myu404/HuntTheWumpus/blob/master/HuntTheWumpusDesignSpec.pdf) illustrates a UML class diagram of the Hunt the Wumpus application. The diagram establishes the relationship between the objects involved. 
 
 Smart pointers (unique pointers, shared pointers, and weak pointers) from C++ Standard Library (```<memory>``` header) are used extensively to emphasize the UML relationship and resource ownership between objects. 
 
@@ -39,9 +39,12 @@ Various new C++20 features from C++ Standard Library and C++ Standard Template L
 
 *User-Defined Library*
 
-Hunt the Wumpus library is provided to support the system requirements.
+Hunt the Wumpus library is a static library that contains all the classes involved in the system and the game state monitoring to check for win/lose condition.
 
 ### Unit Testing
 Unit test suite is included in this project to verify and validate the functionality of class objects and methods. Tests provide coverage to demostrate that the application will meet the system design requirements.
 
 See [UnitTestHuntTheWumpus/](https://github.com/myu404/HuntTheWumpus/tree/master/UnitTestHuntTheWumpus) for unit tests.
+
+### Installation
+Download the repository to local machine. Assuming Visual Studio 2019 environment, open ```HuntTheWumpus.sln```, set ```HuntTheWumpus``` project as "startup project" from Visual Studio 2019 IDE, build and compile solution to create executable file, and run the executable file.
